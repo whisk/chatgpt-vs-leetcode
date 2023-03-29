@@ -1,0 +1,89 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions.
+Here is the problem statement:
+A string s can be partitioned into groups of size k using the following procedure:
+
+The first group consists of the first k characters of the string, the second group consists of the next k characters of the string, and so on. Each character can be a part of exactly one group.
+For the last group, if the string does not have k characters remaining, a character fill is used to complete the group.
+Note that the partition is done so that after removing the fill character from the last group (if it exists) and concatenating all the groups in order, the resultant string should be s.
+
+Given the string s, the size of each group k and the character fill, return a string array denoting the composition of every group s has been divided into, using the above procedure.
+
+ 
+
+Example 1:
+
+Input: s = "abcdefghi", k = 3, fill = "x"
+Output: ["abc","def","ghi"]
+Explanation:
+The first 3 characters "abc" form the first group.
+The next 3 characters "def" form the second group.
+The last 3 characters "ghi" form the third group.
+Since all groups can be completely filled by characters from the string, we do not need to use fill.
+Thus, the groups formed are "abc", "def", and "ghi".
+Example 2:
+
+Input: s = "abcdefghij", k = 3, fill = "x"
+Output: ["abc","def","ghi","jxx"]
+Explanation:
+Similar to the previous example, we are forming the first three groups "abc", "def", and "ghi".
+For the last group, we can only use the character 'j' from the string. To complete this group, we add 'x' twice.
+Thus, the 4 groups formed are "abc", "def", "ghi", and "jxx".
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of lowercase English letters only.
+1 <= k <= 100
+fill is a lowercase English letter.
+
+--
+To solve this problem, we can iterate over the characters of the string s in steps of size k, adding each group to a result list. For the last group, we can check whether it has exactly k characters or not. If it doesn't, we can add the fill character to it to make it of size k.
+
+The time complexity of this algorithm is O(n), where n is the length of the string s. This is because we only iterate over each character in s once. The space complexity is also O(n), since the result list we create can potentially contain all characters in s.
+
+Here's a more detailed description of the algorithm:
+
+Create an empty list to store the result.
+Iterate over the characters of the string s in steps of size k.
+For each step, extract a substring of length k starting from the current character, and add it to the result list.
+After the loop, check whether the last group has exactly k characters or not.
+If the last group doesn't have exactly k characters, add the fill character to it until it becomes of size k.
+Return the result list.
+
+
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. 
+Here is the function declaration:
+    def divideString(self, s: str, k: int, fill: str) -> List[str]:
+
+--
+Sure, here's the Python code that implements the algorithm I described:
+
+python
+Copy code
+from typing import List
+
+class Solution:
+    def divideString(self, s: str, k: int, fill: str) -> List[str]:
+        result = []
+        n = len(s)
+        i = 0
+        
+        while i < n:
+            group = s[i:i+k]
+            if len(group) < k:
+                group += fill * (k - len(group))
+            result.append(group)
+            i += k
+        
+        return result
+In this code, we start by initializing an empty list called result to store the groups of the string. We also get the length of the string s and initialize a counter variable i to 0.
+
+Then we enter a while loop that iterates over the characters of s in steps of size k. Inside the loop, we extract a substring of length k starting from the current character i and assign it to the variable group. We then check whether group has exactly k characters or not. If it doesn't, we add the fill character to it until it becomes of size k.
+
+We then append group to the result list and increment the counter variable i by k. Once the loop ends, we return the result list containing all the groups of the string.
+
+
+
+--

@@ -1,0 +1,98 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions.
+Here is the problem statement:
+Given a string s representing a valid expression, implement a basic calculator to evaluate it, and return the result of the evaluation.
+
+Note: You are not allowed to use any built-in function which evaluates strings as mathematical expressions, such as eval().
+
+ 
+
+Example 1:
+
+Input: s = "1 + 1"
+Output: 2
+Example 2:
+
+Input: s = " 2-1 + 2 "
+Output: 3
+Example 3:
+
+Input: s = "(1+(4+5+2)-3)+(6+8)"
+Output: 23
+ 
+
+Constraints:
+
+1 <= s.length <= 3 * 10^5
+s consists of digits, '+', '-', '(', ')', and ' '.
+s represents a valid expression.
+'+' is not used as a unary operation (i.e., "+1" and "+(2 + 3)" is invalid).
+'-' could be used as a unary operation (i.e., "-1" and "-(2 + 3)" is valid).
+There will be no two consecutive operators in the input.
+Every number and running calculation will fit in a signed 32-bit integer.
+
+
+--
+To solve this problem efficiently, we can use a stack data structure to help us keep track of the numbers and the signs as we iterate through the input string. Here's a high-level algorithm for solving this problem:
+
+Initialize an empty stack called stack.
+Initialize a variable called num to 0, which will be used to store the current number we are parsing from the string.
+Initialize a variable called sign to 1, which will be used to store the current sign (1 for positive, -1 for negative).
+Iterate through the string, processing each character:
+a. If the character is a digit, update the num variable accordingly.
+b. If the character is '+' or '-', push the current number (num * sign) to the stack and update the sign according to the current operator.
+c. If the character is '(', push the current sign to the stack and reset sign to 1.
+d. If the character is ')', push the current number (num * sign) to the stack and then sum up the numbers in the stack until the last sign (either 1 or -1) is reached. Pop the sign, multiply the sum with the sign and push the result back to the stack.
+After the iteration, push the last number (num * sign) to the stack and sum up all the numbers in the stack to get the final result.
+Time complexity: O(n), where n is the length of the input string. This is because we iterate through the string once and perform stack operations that take constant time.
+
+Space complexity: O(n), where n is the length of the input string. In the worst case, we might have to store all characters of the string in the stack, such as when the expression consists of only numbers and '+' operators.
+
+Note: The actual implementation might have minor differences from this high-level algorithm, but the main idea remains the same.
+
+
+
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. 
+Here is the function declaration:
+    def calculate(self, s: str) -> int:
+
+--
+Here is a working implementation of the algorithm for the given function declaration:
+
+python
+Copy code
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack = []
+        num = 0
+        sign = 1
+        result = 0
+
+        for char in s:
+            if char.isdigit():
+                num = num * 10 + int(char)
+            elif char == '+':
+                result += num * sign
+                num = 0
+                sign = 1
+            elif char == '-':
+                result += num * sign
+                num = 0
+                sign = -1
+            elif char == '(':
+                stack.append(result)
+                stack.append(sign)
+                result = 0
+                sign = 1
+            elif char == ')':
+                result += num * sign
+                num = 0
+                result *= stack.pop()  # Pop the sign before the parenthesis
+                result += stack.pop()  # Pop the result before the parenthesis
+
+        result += num * sign  # Add the last number
+        return result
+This implementation follows the high-level algorithm described earlier and works with the given function declaration.
+
+
+

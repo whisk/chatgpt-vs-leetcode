@@ -1,0 +1,88 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+The letter value of a letter is its position in the alphabet starting from 0 (i.e. 'a' -> 0, 'b' -> 1, 'c' -> 2, etc.).
+
+The numerical value of some string of lowercase English letters s is the concatenation of the letter values of each letter in s, which is then converted into an integer.
+
+For example, if s = "acb", we concatenate each letter's letter value, resulting in "021". After converting it, we get 21.
+You are given three strings firstWord, secondWord, and targetWord, each consisting of lowercase English letters 'a' through 'j' inclusive.
+
+Return true if the summation of the numerical values of firstWord and secondWord equals the numerical value of targetWord, or false otherwise.
+
+ 
+
+Example 1:
+
+Input: firstWord = "acb", secondWord = "cba", targetWord = "cdb"
+Output: true
+Explanation:
+The numerical value of firstWord is "acb" -> "021" -> 21.
+The numerical value of secondWord is "cba" -> "210" -> 210.
+The numerical value of targetWord is "cdb" -> "231" -> 231.
+We return true because 21 + 210 == 231.
+Example 2:
+
+Input: firstWord = "aaa", secondWord = "a", targetWord = "aab"
+Output: false
+Explanation: 
+The numerical value of firstWord is "aaa" -> "000" -> 0.
+The numerical value of secondWord is "a" -> "0" -> 0.
+The numerical value of targetWord is "aab" -> "001" -> 1.
+We return false because 0 + 0 != 1.
+Example 3:
+
+Input: firstWord = "aaa", secondWord = "a", targetWord = "aaaa"
+Output: true
+Explanation: 
+The numerical value of firstWord is "aaa" -> "000" -> 0.
+The numerical value of secondWord is "a" -> "0" -> 0.
+The numerical value of targetWord is "aaaa" -> "0000" -> 0.
+We return true because 0 + 0 == 0.
+ 
+
+Constraints:
+
+1 <= firstWord.length, secondWord.length, targetWord.length <= 8
+firstWord, secondWord, and targetWord consist of lowercase English letters from 'a' to 'j' inclusive.
+
+--
+The problem can be solved by converting each string to its numerical value and checking if the sum of the numerical values of the first two strings equals the numerical value of the third string.
+
+Here is a high-level algorithm to solve this problem:
+
+1. Convert `firstWord`, `secondWord`, and `targetWord` into their numerical values.
+   - Iterate over each character of the string.
+   - For each character, subtract 'a' from it to get its position in the alphabet.
+   - Append this number to a string, which starts empty.
+   - At the end of the iteration, convert the string to an integer.
+2. Check if the sum of the numerical values of `firstWord` and `secondWord` equals the numerical value of `targetWord`.
+   - If it does, return true.
+   - If it doesn't, return false.
+
+This algorithm's time complexity is O(n), where n is the maximum length of `firstWord`, `secondWord`, and `targetWord`. This is because we're iterating over each character in each string once.
+
+The space complexity is also O(n) because we're storing the numerical values of `firstWord`, `secondWord`, and `targetWord`. In the worst case, these strings are all of length n, so we're storing 3n characters in total.
+
+This is an optimal solution as we need to check every character in all strings to solve the problem.
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+    def isSumEqual(self, firstWord: str, secondWord: str, targetWord: str) -> bool:
+
+--
+Sure, here is the Python code that follows the steps I described earlier:
+
+```python
+def isSumEqual(self, firstWord: str, secondWord: str, targetWord: str) -> bool:
+    def getNumericalValue(word):
+        num_value = ''
+        for char in word:
+            num_value += str(ord(char) - ord('a'))
+        return int(num_value)
+
+    first_num = getNumericalValue(firstWord)
+    second_num = getNumericalValue(secondWord)
+    target_num = getNumericalValue(targetWord)
+
+    return first_num + second_num == target_num
+```
+
+In the `isSumEqual` function, we have a nested function `getNumericalValue` which calculates the numerical value for a given word. We call this function for `firstWord`, `secondWord`, and `targetWord` to get their numerical values. Then we check if the sum of the numerical values of `firstWord` and `secondWord` equals the numerical value of `targetWord` and return the result.

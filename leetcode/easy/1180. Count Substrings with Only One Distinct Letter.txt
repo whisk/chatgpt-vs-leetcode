@@ -1,0 +1,65 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+Given a string s, return the number of substrings that have only one distinct letter.
+
+ 
+
+Example 1:
+
+Input: s = "aaaba"
+Output: 8
+Explanation: The substrings with one distinct letter are "aaa", "aa", "a", "b".
+"aaa" occurs 1 time.
+"aa" occurs 2 times.
+"a" occurs 4 times.
+"b" occurs 1 time.
+So the answer is 1 + 2 + 4 + 1 = 8.
+Example 2:
+
+Input: s = "aaaaaaaaaa"
+Output: 55
+ 
+
+Constraints:
+
+1 <= s.length <= 1000
+s[i] consists of only lowercase English letters.
+
+--
+This problem can be solved efficiently using a simple approach that iterates over the string and counts the number of substrings with only one distinct letter. 
+
+Here is the idea of the solution:
+
+1. Initialize a counter for the current sequence of identical characters and a total counter for all such sequences.
+2. Iterate over each character in the string. 
+    - If the current character is the same as the previous one, increment the current sequence counter.
+    - If the current character is different from the previous one, add the number of substrings in the current sequence to the total counter and reset the current sequence counter to 1 (since the current character starts a new sequence).
+3. Add the number of substrings in the last sequence to the total counter after the loop ends.
+4. Return the total counter.
+
+The number of substrings in a sequence of length n with identical characters is n*(n+1)/2. This is because a substring of such a sequence can start at any of the n positions and can have a length from 1 to n.
+
+The time complexity of this solution is O(n), where n is the length of the string. This is because we make a single pass through the string.
+
+The space complexity is O(1), which means it uses a constant amount of additional space. This is because we only need a fixed number of variables to keep track of the counts, regardless of the input string's size.
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+def countLetters(self, s: str) -> int:
+
+--
+Here is the Python code for the problem based on the approach that was previously described:
+
+```python
+def countLetters(self, s: str) -> int:
+    total = 0
+    count = 1  # Initialize count to 1 for the first character
+    for i in range(1, len(s)):
+        if s[i] == s[i - 1]:  # If the current character is the same as the previous one
+            count += 1
+        else:  # If the current character is different from the previous one
+            total += (count * (count + 1)) // 2  # Add the number of substrings in the current sequence to the total
+            count = 1  # Reset the count for the new sequence
+    total += (count * (count + 1)) // 2  # Add the number of substrings in the last sequence
+    return total
+```
+
+This function works by iterating over the string `s` and counting the number of substrings that have only one distinct letter. It does this by keeping track of the number of consecutive identical characters in the current sequence (`count`) and the total number of such substrings (`total`). Whenever it encounters a different character, it adds the number of substrings in the current sequence to `total` and resets `count` for the new sequence. Finally, it adds the number of substrings in the last sequence to `total` after the loop ends.

@@ -1,0 +1,68 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+You are given an integer array arr. Sort the integers in the array in ascending order by the number of 1's in their binary representation and in case of two or more integers have the same number of 1's you have to sort them in ascending order.
+
+Return the array after sorting it.
+
+ 
+
+Example 1:
+
+Input: arr = [0,1,2,3,4,5,6,7,8]
+Output: [0,1,2,4,8,3,5,6,7]
+Explantion: [0] is the only integer with 0 bits.
+[1,2,4,8] all have 1 bit.
+[3,5,6] have 2 bits.
+[7] has 3 bits.
+The sorted array by bits is [0,1,2,4,8,3,5,6,7]
+Example 2:
+
+Input: arr = [1024,512,256,128,64,32,16,8,4,2,1]
+Output: [1,2,4,8,16,32,64,128,256,512,1024]
+Explantion: All integers have 1 bit in the binary representation, you should just sort them in ascending order.
+ 
+
+Constraints:
+
+1 <= arr.length <= 500
+0 <= arr[i] <= 10^4
+
+--
+The most efficient way to solve this problem is to use a sort function with a custom comparator. 
+
+First, we would need a function to count the number of 1's in the binary representation of a number. This can be done by converting the number to binary and counting the number of 1's.
+
+We would then use the sort function with a custom comparator. This comparator would first compare the number of 1's in the binary representation of the two numbers. If the numbers have the same number of 1's, the comparator would then compare the numbers themselves.
+
+Here's the overall step-by-step process:
+
+1. Define a function to count the number of 1's in the binary representation of a number.
+2. Use the built-in sort function with a custom comparator.
+3. The comparator function should:
+    a. Use the function defined in step 1 to count the number of 1's in the binary representation of the two numbers being compared.
+    b. If the numbers have the same number of 1's, compare the numbers themselves.
+4. Return the sorted array.
+
+The time complexity of this algorithm is O(n log n) because we're using a sort function, where n is the length of the array. The sort function typically has a time complexity of O(n log n). The function to count the number of 1's in the binary representation of a number has a time complexity of O(1) because the number of bits in a number is limited (log2(10^4) < 14). Therefore, the overall time complexity is O(n log n).
+
+The space complexity of this algorithm is O(n), which is the space required to store the array. No additional space that scales with the size of the input is used. The bit counting function uses a constant amount of space. Thus, the space complexity is dominated by the size of the input array.
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+def sortByBits(self, arr: List[int]) -> List[int]:
+
+--
+Sure, here is the Python code for the problem. This function uses Python's built-in `sort` function with a custom comparator:
+
+```python
+from typing import List
+
+class Solution:
+    def sortByBits(self, arr: List[int]) -> List[int]:
+        # Helper function to count the number of 1's in binary representation of a number
+        def countBits(n):
+            return bin(n).count('1')
+
+        arr.sort(key=lambda x: (countBits(x), x))
+        return arr
+```
+
+This function sorts the array 'arr' in-place. The sort function takes a key parameter which is a function that takes one argument and returns a key to use for sorting purposes. Here, we pass a lambda function that returns a tuple. The first element of the tuple is the count of 1's in the binary representation of a number, and the second element is the number itself. Python's sort function first sorts by the first element of the tuple, and if there's a tie, it sorts by the second element. This gives us the desired behavior of sorting by the count of 1's, and then by the number itself if there's a tie.

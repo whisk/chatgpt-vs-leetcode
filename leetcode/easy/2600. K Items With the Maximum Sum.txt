@@ -1,0 +1,73 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+There is a bag that consists of items, each item has a number 1, 0, or -1 written on it.
+
+You are given four non-negative integers numOnes, numZeros, numNegOnes, and k.
+
+The bag initially contains:
+
+numOnes items with 1s written on them.
+numZeroes items with 0s written on them.
+numNegOnes items with -1s written on them.
+We want to pick exactly k items among the available items. Return the maximum possible sum of numbers written on the items.
+
+ 
+
+Example 1:
+
+Input: numOnes = 3, numZeros = 2, numNegOnes = 0, k = 2
+Output: 2
+Explanation: We have a bag of items with numbers written on them {1, 1, 1, 0, 0}. We take 2 items with 1 written on them and get a sum in a total of 2.
+It can be proven that 2 is the maximum possible sum.
+Example 2:
+
+Input: numOnes = 3, numZeros = 2, numNegOnes = 0, k = 4
+Output: 3
+Explanation: We have a bag of items with numbers written on them {1, 1, 1, 0, 0}. We take 3 items with 1 written on them, and 1 item with 0 written on it, and get a sum in a total of 3.
+It can be proven that 3 is the maximum possible sum.
+ 
+
+Constraints:
+
+0 <= numOnes, numZeros, numNegOnes <= 50
+0 <= k <= numOnes + numZeros + numNegOnes
+
+--
+The problem can be solved using a greedy approach. Our goal is to maximize the sum of the picked items, so we should try to pick as many 1s as possible, then as many 0s as necessary, and finally pick -1s only if needed. Here's the high-level algorithm:
+
+Calculate the minimum between k and numOnes. This value will determine the number of 1s we can pick. Update k by subtracting the number of picked 1s.
+If there are still items to pick (k > 0), calculate the minimum between k and numZeros. This value will determine the number of 0s we can pick. Update k by subtracting the number of picked 0s.
+If there are still items to pick (k > 0), we have no choice but to pick the remaining items as -1s.
+Calculate the total sum of picked items and return it.
+The time complexity of this solution is O(1) since there are no loops or recursion, and we perform constant-time operations. The space complexity is also O(1), as we only use a few variables for calculations and do not need any additional data structures.
+
+
+
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+def kItemsWithMaximumSum(self, numOnes: int, numZeros: int, numNegOnes: int, k: int) -> int:
+
+--
+Here's the implementation of the algorithm in Python, based on the provided function declaration:
+
+python
+Copy code
+class Solution:
+    def kItemsWithMaximumSum(self, numOnes: int, numZeros: int, numNegOnes: int, k: int) -> int:
+        # Step 1: Pick as many 1s as possible, and update k
+        picked_ones = min(k, numOnes)
+        k -= picked_ones
+        
+        # Step 2: Pick as many 0s as necessary, and update k
+        picked_zeros = min(k, numZeros)
+        k -= picked_zeros
+        
+        # Step 3: If there are still items to pick, pick the remaining items as -1s
+        picked_neg_ones = k
+        
+        # Step 4: Calculate the total sum of picked items and return it
+        total_sum = picked_ones * 1 + picked_zeros * 0 + picked_neg_ones * (-1)
+        return total_sum
+The provided function is now a part of the Solution class and implements the greedy approach as discussed earlier. It calculates the maximum possible sum of the items while adhering to the given constraints.
+
+
+

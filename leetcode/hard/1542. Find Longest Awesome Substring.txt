@@ -1,0 +1,127 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+You are given a string s. An awesome substring is a non-empty substring of s such that we can make any number of swaps in order to make it a palindrome.
+
+Return the length of the maximum length awesome substring of s.
+
+ 
+
+Example 1:
+
+Input: s = "3242415"
+Output: 5
+Explanation: "24241" is the longest awesome substring, we can form the palindrome "24142" with some swaps.
+Example 2:
+
+Input: s = "12345678"
+Output: 1
+Example 3:
+
+Input: s = "213123"
+Output: 6
+Explanation: "213123" is the longest awesome substring, we can form the palindrome "231132" with some swaps.
+ 
+
+Constraints:
+
+1 <= s.length <= 10^5
+s consists only of digits.
+
+--
+The problem can be efficiently solved by applying the Manacher's algorithm with some modifications to accommodate the additional constraint of allowing swaps.
+
+The key insight is that we can find the longest palindrome that can be formed with the given string by considering the character frequency of the string.
+
+1. Initialize an array freq[] of size 10 to store the frequency of each digit in the current substring.
+2. Initialize maxLength to 0.
+3. Iterate through the string s from the left to the right:
+    a. For each character in s, update its frequency in freq[].
+    b. Check if the current substring can form a palindrome by counting the number of odd-frequency characters.
+    c. If there is at most one odd-frequency character, the current substring can be rearranged into a palindrome. Update maxLength with the maximum length of the current awesome substring.
+4. Return maxLength.
+
+The time complexity of this algorithm is O(n), where n is the length of the string s. This is because we iterate through the string once and update the character frequencies at each step. The space complexity is O(1), as the character frequencies array has a constant size (10 digits).
+
+In summary, the most efficient solution is to use a modified Manacher's algorithm. The time complexity is O(n), and the space complexity is O(1).
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+    def longestAwesome(self, s: str) -> int:
+
+--
+Here's the Python implementation of the algorithm I described:
+
+```python
+class Solution:
+    def longestAwesome(self, s: str) -> int:
+        maxLength = 0
+        freq = [0] * 10
+        
+        for i in range(len(s)):
+            # Update the frequency of the current character
+            freq[int(s[i])] += 1
+            
+            # Check if the current substring can form a palindrome
+            odd_count = sum(1 for f in freq if f % 2 == 1)
+            
+            # If there is at most one odd-frequency character, the current substring can be rearranged into a palindrome
+            if odd_count <= 1:
+                maxLength = max(maxLength, i + 1)
+            else:
+                # Find the longest palindrome by shrinking the substring until it can be rearranged into a palindrome
+                for j in range(i - maxLength):
+                    freq[int(s[j])] -= 1
+                    odd_count = sum(1 for f in freq if f % 2 == 1)
+                    if odd_count <= 1:
+                        maxLength = max(maxLength, i - j)
+                        break
+        
+        return maxLength
+```
+
+This code defines a class Solution with a function longestAwesome that takes a string s and returns the length of the maximum awesome substring. The algorithm follows the steps I described in my previous response.
+--
+This code returns incorrect results. Could you please improve your solution?
+
+--
+I apologize for the confusion. I misunderstood the problem statement earlier. Here is an improved solution using dynamic programming and prefix sum. 
+
+The idea is to keep track of the parity of each digit's count using a prefix sum bitmask. If we encounter the same bitmask again in our iteration, it means that there is an even count of digits between the current position and the previous position with the same bitmask.
+
+1. Initialize a dictionary called `seen` to store the earliest index where the bitmask is seen.
+2. Initialize maxLength to 0 and mask to 0.
+3. Insert the default value of -1 into the `seen` dictionary for mask 0.
+4. Iterate through the string s from the left to the right:
+    a. Update the mask by toggling the bit at the position of the current character.
+    b. Check if the mask is present in the `seen` dictionary.
+        i. If not present, insert the current index as the value for the mask.
+        ii. If present, update maxLength by taking the maximum of maxLength and the difference between the current index and the earliest index with the same mask.
+    c. Iterate through all possible single-bit changes in the mask to find other awesome substrings, and update maxLength accordingly.
+
+5. Return maxLength.
+
+Here's the updated Python implementation:
+
+```python
+class Solution:
+    def longestAwesome(self, s: str) -> int:
+        maxLength = 0
+        mask = 0
+        seen = {-1: 0}
+        
+        for i, c in enumerate(s):
+            digit = int(c)
+            mask ^= 1 << digit
+            
+            if mask not in seen:
+                seen[mask] = i + 1
+                
+            maxLength = max(maxLength, i + 1 - seen[mask])
+            
+            for bit in range(10):
+                modified_mask = mask ^ (1 << bit)
+                if modified_mask in seen:
+                    maxLength = max(maxLength, i + 1 - seen[modified_mask])
+        
+        return maxLength
+```
+
+This updated solution should now provide correct results. The time complexity of this algorithm is O(n), where n is the length of the string s, and the space complexity is O(2^k), where k is the number of unique digits. In this case, k = 10, so the space complexity is O(1024).

@@ -1,0 +1,78 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+Given two arrays arr1 and arr2, the elements of arr2 are distinct, and all elements in arr2 are also in arr1.
+
+Sort the elements of arr1 such that the relative ordering of items in arr1 are the same as in arr2. Elements that do not appear in arr2 should be placed at the end of arr1 in ascending order.
+
+ 
+
+Example 1:
+
+Input: arr1 = [2,3,1,3,2,4,6,7,9,2,19], arr2 = [2,1,4,3,9,6]
+Output: [2,2,2,1,4,3,3,9,6,7,19]
+Example 2:
+
+Input: arr1 = [28,6,22,8,44,17], arr2 = [22,28,8,6]
+Output: [22,28,8,6,17,44]
+ 
+
+Constraints:
+
+1 <= arr1.length, arr2.length <= 1000
+0 <= arr1[i], arr2[i] <= 1000
+All the elements of arr2 are distinct.
+Each arr2[i] is in arr1.
+
+--
+The problem can be solved by using the counting sort and hash map technique. The idea is to store the frequency of each element in arr1 and then use arr2 to decide the order.
+
+Here are the steps:
+
+1. First, create a frequency map (HashMap) from arr1, which stores each element of arr1 and its count.
+
+2. Then, iterate over arr2. For each element in arr2, append it to the result array as many times as it appears in arr1 according to our frequency map. Remove these elements from the map after appending them to the result.
+
+3. After that, there might be some elements left in arr1 that are not in arr2. These elements are still in our map. Sort these elements.
+
+4. Finally, append these sorted elements to the result array.
+
+The time complexity of this approach is O(n log n), where n is the length of arr1. The O(n log n) comes from the sorting step of the elements that are not in arr2. In the worst case scenario, this could be all elements of arr1.
+
+The space complexity is O(n), as in the worst case, we may need to store all elements of arr1 in the map and in the result array.
+
+This algorithm is efficient when the range of the input integers (0-1000) is much smaller than the number of integers, and the integers can be non-negative, which suits counting sort well. It also takes advantage of the distinct elements in arr2 to avoid unnecessary comparison and maintain relative order.
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+    def relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
+
+--
+Here's a Python solution for the problem using the approach described earlier:
+
+```python
+from typing import List
+from collections import Counter
+
+class Solution:
+    def relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
+        # Create a counter from arr1
+        counter = Counter(arr1)
+
+        # Initialize the result list
+        result = []
+
+        # Iterate over arr2, and for each element in arr2, 
+        # append it to the result list as many times as it appears in arr1.
+        for num in arr2:
+            result += [num]*counter[num]
+            del counter[num]
+
+        # Get the remaining elements and sort them
+        remaining = sorted(counter.elements())
+
+        # Append the sorted remaining elements to the result
+        result += remaining
+
+        return result
+```
+This code first creates a counter from arr1. Then, it iterates over arr2, and for each element in arr2, it appends it to the result list as many times as it appears in arr1. After that, it gets the remaining elements that are not in arr2, sorts them, and appends them to the result. Finally, it returns the result list.
+
+The `Counter` class in Python is a hash map, and the `elements` method returns an iterator over elements repeating each as many times as its count. Elements are returned in the order first encountered. If an element’s count is less than one, `elements()` will ignore it.

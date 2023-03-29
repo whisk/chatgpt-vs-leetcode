@@ -1,0 +1,67 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+Given an integer array nums of size n, return the number with the value closest to 0 in nums. If there are multiple answers, return the number with the largest value.
+
+ 
+
+Example 1:
+
+Input: nums = [-4,-2,1,4,8]
+Output: 1
+Explanation:
+The distance from -4 to 0 is |-4| = 4.
+The distance from -2 to 0 is |-2| = 2.
+The distance from 1 to 0 is |1| = 1.
+The distance from 4 to 0 is |4| = 4.
+The distance from 8 to 0 is |8| = 8.
+Thus, the closest number to 0 in the array is 1.
+Example 2:
+
+Input: nums = [2,-1,1]
+Output: 1
+Explanation: 1 and -1 are both the closest numbers to 0, so 1 being larger is returned.
+ 
+
+Constraints:
+
+1 <= n <= 1000
+-105 <= nums[i] <= 10^5
+
+--
+The most efficient solution for this problem is to iterate over the array, comparing each number's absolute value with the current smallest absolute value found. If the absolute value of the current number is smaller than the smallest absolute value found so far, we update the smallest absolute value and the corresponding number. If the absolute value of the current number is equal to the smallest absolute value found but the current number is larger, we also update the number. This ensures that we meet the requirement of returning the number with the largest value in case of multiple answers.
+
+Here's a step-by-step plan of the approach:
+
+1. Initialize a variable, say `closest`, to hold the number in the array closest to zero. Set it as the first element of the array. Also, initialize a variable `minDist` to hold the smallest absolute value found so far. Set it as the absolute value of the first element.
+
+2. Iterate over the array starting from the second element. For each element:
+    - Calculate its absolute value.
+    - If this absolute value is less than `minDist`, update `minDist` with this absolute value and `closest` with this element.
+    - If this absolute value is equal to `minDist` but the element is larger than `closest`, update `closest` with this element.
+
+3. After the iteration, return `closest`.
+
+This solution works in one pass over the array, so it has a time complexity of O(n), where n is the size of the array. It only uses a fixed amount of additional space, so its space complexity is O(1).
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+    def findClosestNumber(self, nums: List[int]) -> int:
+
+--
+Sure, here's the Python code for the problem using the strategy I explained earlier:
+
+```python
+from typing import List
+
+class Solution:
+    def findClosestNumber(self, nums: List[int]) -> int:
+        closest = nums[0]
+        minDist = abs(nums[0])
+        
+        for num in nums[1:]:
+            if abs(num) < minDist or (abs(num) == minDist and num > closest):
+                closest = num
+                minDist = abs(num)
+                
+        return closest
+```
+
+You can use this function to find the number in the `nums` array that is closest to 0, returning the largest number in case of a tie.

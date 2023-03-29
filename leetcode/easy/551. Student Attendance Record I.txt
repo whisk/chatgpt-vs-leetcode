@@ -1,0 +1,74 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+You are given a string s representing an attendance record for a student where each character signifies whether the student was absent, late, or present on that day. The record only contains the following three characters:
+
+'A': Absent.
+'L': Late.
+'P': Present.
+The student is eligible for an attendance award if they meet both of the following criteria:
+
+The student was absent ('A') for strictly fewer than 2 days total.
+The student was never late ('L') for 3 or more consecutive days.
+Return true if the student is eligible for an attendance award, or false otherwise.
+
+ 
+
+Example 1:
+
+Input: s = "PPALLP"
+Output: true
+Explanation: The student has fewer than 2 absences and was never late 3 or more consecutive days.
+Example 2:
+
+Input: s = "PPALLL"
+Output: false
+Explanation: The student was late 3 consecutive days in the last 3 days, so is not eligible for the award.
+ 
+
+Constraints:
+
+1 <= s.length <= 1000
+s[i] is either 'A', 'L', or 'P'.
+--
+This problem can be solved using a simple linear scan of the input string. The main idea is to track the count of 'A' and consecutive 'L' characters in the string. 
+
+Here's the overall approach:
+
+- First, we'll initialize two counters, `absences` and `lates`. The `absences` counter will track the total number of absences, and the `lates` counter will track the number of consecutive late days.
+- Then, we'll loop over each character in the input string. 
+    - If the current character is 'A', we'll increment the `absences` counter by 1, and reset the `lates` counter to 0 because being absent breaks the streak of being late.
+    - If the current character is 'L', we'll increment the `lates` counter by 1.
+    - If the current character is 'P', we'll reset the `lates` counter to 0 because being present also breaks the streak of being late.
+- At each step, we'll also check whether the student has been disqualified from receiving the award. This would happen if `absences` is greater than or equal to 2, or if `lates` is greater than or equal to 3. If either of these conditions is met, we can return false immediately.
+- If we get through the entire string without disqualifying the student, then we can return true because they are eligible for the award.
+
+Time complexity: The time complexity of this approach is O(n), where n is the length of the input string. This is because we're performing a constant amount of work for each character in the string.
+
+Space complexity: The space complexity is O(1), as we're using a fixed amount of space to store the count of absences and consecutive late days, regardless of the size of the input.
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+def checkRecord(self, s: str) -> bool:
+
+--
+Sure, here is the Python code that implements the approach I outlined:
+
+```python
+def checkRecord(self, s: str) -> bool:
+    absences = 0
+    lates = 0
+
+    for char in s:
+        if char == 'A':
+            absences += 1
+            lates = 0
+        elif char == 'L':
+            lates += 1
+        else: # char == 'P'
+            lates = 0
+
+        if absences >= 2 or lates >= 3:
+            return False
+
+    return True
+```
+
+This function checks each character in the string `s`, increments the `absences` counter for every 'A', and maintains a streak count of 'L's with the `lates` counter. It also checks for the two award disqualification conditions after every character. If the student is not disqualified by the end of the string, the function returns `True`.

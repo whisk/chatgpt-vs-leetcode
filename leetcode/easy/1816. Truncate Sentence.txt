@@ -1,0 +1,74 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+A sentence is a list of words that are separated by a single space with no leading or trailing spaces. Each of the words consists of only uppercase and lowercase English letters (no punctuation).
+
+For example, "Hello World", "HELLO", and "hello world hello world" are all sentences.
+You are given a sentence s​​​​​​ and an integer k​​​​​​. You want to truncate s​​​​​​ such that it contains only the first k​​​​​​ words. Return s​​​​​​ after truncating it.
+
+ 
+
+Example 1:
+
+Input: s = "Hello how are you Contestant", k = 4
+Output: "Hello how are you"
+Explanation:
+The words in s are ["Hello", "how" "are", "you", "Contestant"].
+The first 4 words are ["Hello", "how", "are", "you"].
+Hence, you should return "Hello how are you".
+Example 2:
+
+Input: s = "What is the solution to this problem", k = 4
+Output: "What is the solution"
+Explanation:
+The words in s are ["What", "is" "the", "solution", "to", "this", "problem"].
+The first 4 words are ["What", "is", "the", "solution"].
+Hence, you should return "What is the solution".
+Example 3:
+
+Input: s = "chopper is not a tanuki", k = 5
+Output: "chopper is not a tanuki"
+ 
+
+Constraints:
+
+1 <= s.length <= 500
+k is in the range [1, the number of words in s].
+s consist of only lowercase and uppercase English letters and spaces.
+The words in s are separated by a single space.
+There are no leading or trailing spaces.
+
+--
+This problem can be solved by using a simple string parsing approach.
+
+Here's a high-level explanation of the algorithm:
+
+1. Initialize a counter to keep track of the number of words processed. 
+2. Parse the sentence from the beginning, checking for space characters, which indicate the end of a word.
+3. Each time you encounter a space, increment the counter. If the counter equals k, record the index of the character right before the space. This is the end of the kth word.
+4. After parsing the string, or when you have found k words, return the substring of the sentence from the start to the recorded index.
+
+This solution works because it only processes each character of the string once and stops as soon as it finds the kth word. No extra space is required except for a few integers to keep track of the current index and word count.
+
+In terms of time complexity, in the worst case, we have to go through the entire string, so the time complexity is O(n), where n is the length of the string. 
+
+The space complexity is O(1) because we are only using a constant amount of space to store the counter and index, regardless of the size of the input. We are also returning a substring of the original string, which doesn't require additional space because Python implements this as a view on the original string, rather than a separate copy. 
+
+This algorithm assumes that the input sentence does indeed have k words. If it doesn't, the function will need to be adjusted to return the entire string or an error message as appropriate.
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+def truncateSentence(self, s: str, k: int) -> str:
+
+--
+Sure, I will implement the solution as described above in Python:
+
+```python
+def truncateSentence(self, s: str, k: int) -> str:
+    word_count = 0
+    for i in range(len(s)):
+        if s[i] == ' ':
+            word_count += 1
+        if word_count == k:
+            return s[:i]
+    return s
+```
+
+This function works by iterating over each character in the string s. When it encounters a space character, it increments the word count. If the word count reaches k, it returns the substring of s from the start up to the character before the space. If it finishes iterating over the string without reaching k words (meaning there are fewer than k words in the sentence), it simply returns the entire string.

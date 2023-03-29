@@ -1,0 +1,67 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+Given two strings first and second, consider occurrences in some text of the form "first second third", where second comes immediately after first, and third comes immediately after second.
+
+Return an array of all the words third for each occurrence of "first second third".
+
+ 
+
+Example 1:
+
+Input: text = "alice is a good girl she is a good student", first = "a", second = "good"
+Output: ["girl","student"]
+Example 2:
+
+Input: text = "we will we will rock you", first = "we", second = "will"
+Output: ["we","rock"]
+ 
+
+Constraints:
+
+1 <= text.length <= 1000
+text consists of lowercase English letters and spaces.
+All the words in text a separated by a single space.
+1 <= first.length, second.length <= 10
+first and second consist of lowercase English letters.
+--
+Here is a brief overview of the solution approach:
+
+The problem requires us to find a word which comes after a specific pair of words (in the given order). The best way to approach this problem is to read the input text word by word while checking for occurrences of the 'first' and 'second' word pair. Then we'll append the following word ('third' word) into our result list if the previous two words form the 'first' and 'second' pair.
+
+We can implement this using a sliding window of size 3 that moves across the list of words in the text. We'll keep track of the last two words we've processed and if they are 'first' and 'second', then we'll append the next word into our result list. 
+
+Let's see the pseudocode of the solution approach to make things clearer:
+
+1. Convert the text into a list of words using space as the delimiter.
+2. Initialize an empty list 'result' to store the 'third' words.
+3. Start from the third word in the list (since we need a pair before we can find a 'third' word), and for each word at index i, check if the word at index i-2 is equal to 'first' and the word at index i-1 is equal to 'second'. If yes, append the current word to the 'result' list.
+4. After traversing all words, return the 'result' list.
+
+Time and Space Complexity Analysis:
+
+The time complexity of the solution is O(n), where n is the number of words in the text. This is because we're doing a single pass through all the words in the text.
+
+The space complexity of the solution is also O(n), where n is the number of words in the text. This is because we're storing all the words of the text in a list. However, in the worst case scenario, if all pairs of words are 'first' and 'second', then the 'result' list will also have a size of n-2. Therefore, in the worst case, the space complexity can be considered as O(2n) which simplifies to O(n).
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+def findOcurrences(self, text: str, first: str, second: str) -> List[str]:
+
+--
+Sure, I will use your function declaration to write the Python code for this problem:
+
+```python
+from typing import List
+
+def findOcurrences(self, text: str, first: str, second: str) -> List[str]:
+    words = text.split()
+    result = []
+
+    for i in range(2, len(words)):
+        if words[i-2] == first and words[i-1] == second:
+            result.append(words[i])
+
+    return result
+```
+
+Here is the explanation of the code:
+
+The function first splits the input string into a list of words. Then it initializes an empty list called 'result'. After that, it iterates over each word in the list, starting from the third word (index 2). For each word, it checks if the word two positions before it is the same as 'first' and the word one position before it is the same as 'second'. If both conditions are true, it appends the current word to the 'result' list. After the iteration, it returns the 'result' list.

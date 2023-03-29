@@ -1,0 +1,71 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+Given a string s, reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.
+
+ 
+
+Example 1:
+
+Input: s = "Let's take LeetCode contest"
+Output: "s'teL ekat edoCteeL tsetnoc"
+Example 2:
+
+Input: s = "God Ding"
+Output: "doG gniD"
+ 
+
+Constraints:
+
+1 <= s.length <= 5 * 10^4
+s contains printable ASCII characters.
+s does not contain any leading or trailing spaces.
+There is at least one word in s.
+All the words in s are separated by a single space.
+
+--
+Problem Analysis:
+The problem requires us to reverse the individual words in the given sentence while maintaining the order of the words. The constraints indicate that the sentence is not empty, does not contain leading or trailing spaces, and words are separated by a single space.
+
+Approach:
+The solution to this problem can be solved efficiently by the following steps:
+1. Split the sentence into individual words.
+2. Reverse each word in the sentence.
+3. Join the reversed words back together into a sentence, with a space between each word.
+
+To accomplish this, we can use built-in string methods like split() and join(), along with a list comprehension to reverse each word.
+
+Algorithm:
+1. Split the sentence into individual words using the split() method. This will create a list where each element is a word from the sentence.
+2. Use a list comprehension to reverse each word in the list. You can reverse a string in Python using slicing with a step of -1 (word[::-1]).
+3. Join the reversed words back into a sentence using the join() method, with a space (' ') as the separator.
+
+Time complexity analysis:
+1. Splitting the sentence into words takes O(n) time, where n is the length of the sentence.
+2. Reversing each word also takes O(n) time in total because each character is visited once.
+3. Joining the words back into a sentence takes O(n) time.
+
+Therefore, the overall time complexity of this approach is O(n), where n is the length of the sentence.
+
+Space complexity analysis:
+We are using additional space to store the words and the reversed words. In the worst case, if there are no spaces in the sentence, we will end up storing all the characters. Therefore, the space complexity is also O(n), where n is the length of the sentence.
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+def reverseWords(self, s: str) -> str:
+
+--
+Here is the Python code that implements the solution I described:
+
+```python
+def reverseWords(self, s: str) -> str:
+    # Step 1: Split the sentence into words
+    words = s.split(' ')
+    
+    # Step 2: Reverse each word
+    reversed_words = [word[::-1] for word in words]
+    
+    # Step 3: Join the reversed words back into a sentence
+    result = ' '.join(reversed_words)
+    
+    return result
+```
+
+This function takes in a sentence as input and returns a new sentence in which each word is reversed while the order of words is preserved. It uses Python's built-in string and list methods to perform the operations.

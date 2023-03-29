@@ -1,0 +1,103 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+There is a new alien language that uses the English alphabet. However, the order among the letters is unknown to you.
+
+You are given a list of strings words from the alien language's dictionary, where the strings in words are 
+sorted lexicographically
+ by the rules of this new language.
+
+Return a string of the unique letters in the new alien language sorted in lexicographically increasing order by the new language's rules. If there is no solution, return "". If there are multiple solutions, return any of them.
+
+ 
+
+Example 1:
+
+Input: words = ["wrt","wrf","er","ett","rftt"]
+Output: "wertf"
+Example 2:
+
+Input: words = ["z","x"]
+Output: "zx"
+Example 3:
+
+Input: words = ["z","x","z"]
+Output: ""
+Explanation: The order is invalid, so return "".
+ 
+
+Constraints:
+
+1 <= words.length <= 100
+1 <= words[i].length <= 100
+words[i] consists of only lowercase English letters.
+
+--
+To solve this problem, we can use a graph-based algorithm called Topological Sort.
+
+1. First, we will build a directed graph where each node represents a character in the alien language, and a directed edge between two characters signifies the order between them. To construct this graph, we will compare adjacent words in the given list of words.
+
+2. For each pair of adjacent words, we can find the first different character in the words (if there is one) and create a directed edge in the graph representing the order between those characters. For example, if we have the words "wrt" and "wrf", the first different character is 't' and 'f', so we can create an edge from 't' to 'f'.
+
+3. Once the graph is constructed, we will perform a Topological Sort on the graph to get the linear order of the characters in the alien language.
+
+4. If there is a cycle in the graph, it means that the order is invalid, and we should return an empty string. If there are multiple valid topological orders, we can return any of them.
+
+The time complexity of this solution is O(C), where C is the total number of characters in all the words. The reason for this complexity is that we need to iterate through all the characters to build the graph and perform the topological sort.
+
+The space complexity is also O(C), as we need to store the graph and the topological order.
+
+Let me know if you have any questions or need further clarification.
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+def alienOrder(self, words: List[str]) -> str:
+
+--
+Here's the implementation of the solution based on the approach I explained earlier:
+
+```python
+from collections import defaultdict, deque
+from typing import List
+
+class Solution:
+    def alienOrder(self, words: List[str]) -> str:
+        # Helper function to build the graph
+        def build_graph(words):
+            graph = defaultdict(set)
+            indegree = {c: 0 for word in words for c in word}
+            
+            for w1, w2 in zip(words, words[1:]):
+                for c1, c2 in zip(w1, w2):
+                    if c1 != c2:
+                        if c2 not in graph[c1]:
+                            graph[c1].add(c2)
+                            indegree[c2] += 1
+                        break
+                else:
+                    if len(w1) > len(w2):
+                        return None, None
+            return graph, indegree
+
+        # Helper function to perform Topological Sort
+        def topological_sort(graph, indegree):
+            queue = deque([c for c in indegree if indegree[c] == 0])
+            alien_order = []
+            
+            while queue:
+                curr = queue.popleft()
+                alien_order.append(curr)
+                
+                for neighbor in graph[curr]:
+                    indegree[neighbor] -= 1
+                    if indegree[neighbor] == 0:
+                        queue.append(neighbor)
+                        
+            return alien_order if len(alien_order) == len(indegree) else []
+
+        graph, indegree = build_graph(words)
+        
+        if graph is None:
+            return ""
+        
+        return "".join(topological_sort(graph, indegree))
+```
+
+This code follows the described approach and implements the given function definition. It first builds the graph and indegree dictionary using the helper function `build_graph`, and then it performs a Topological Sort using the helper function `topological_sort`. Finally, it returns the sorted alien order or an empty string if the order is invalid.

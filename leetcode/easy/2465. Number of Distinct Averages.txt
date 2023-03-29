@@ -1,0 +1,78 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+You are given a 0-indexed integer array nums of even length.
+
+As long as nums is not empty, you must repetitively:
+
+Find the minimum number in nums and remove it.
+Find the maximum number in nums and remove it.
+Calculate the average of the two removed numbers.
+The average of two numbers a and b is (a + b) / 2.
+
+For example, the average of 2 and 3 is (2 + 3) / 2 = 2.5.
+Return the number of distinct averages calculated using the above process.
+
+Note that when there is a tie for a minimum or maximum number, any can be removed.
+
+ 
+
+Example 1:
+
+Input: nums = [4,1,4,0,3,5]
+Output: 2
+Explanation:
+1. Remove 0 and 5, and the average is (0 + 5) / 2 = 2.5. Now, nums = [4,1,4,3].
+2. Remove 1 and 4. The average is (1 + 4) / 2 = 2.5, and nums = [4,3].
+3. Remove 3 and 4, and the average is (3 + 4) / 2 = 3.5.
+Since there are 2 distinct numbers among 2.5, 2.5, and 3.5, we return 2.
+Example 2:
+
+Input: nums = [1,100]
+Output: 1
+Explanation:
+There is only one average to be calculated after removing 1 and 100, so we return 1.
+ 
+
+Constraints:
+
+2 <= nums.length <= 100
+nums.length is even.
+0 <= nums[i] <= 100
+
+--
+The most efficient solution to this problem can be achieved by first sorting the input array and then iterating through it to calculate the distinct averages. Here's a high-level overview of the algorithm:
+
+Sort the input array nums in non-decreasing order.
+Initialize a set (or any other data structure that supports unique elements) to keep track of distinct averages.
+Iterate through the first half of the sorted array using an index i (0 <= i < nums.length / 2). For each iteration, calculate the average of nums[i] and nums[nums.length - 1 - i], and insert the calculated average into the set.
+Return the size of the set, which represents the number of distinct averages.
+The time complexity of this solution is O(nlog(n)), as sorting an array of length n takes O(nlog(n)) time. The iteration through the first half of the sorted array takes O(n/2) time, but this is dominated by the sorting step.
+
+The space complexity is O(n), as we need to store the sorted array and the set containing the distinct averages. In the worst case, each average will be distinct, leading to a set with n/2 elements.
+
+
+
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+    def distinctAverages(self, nums: List[int]) -> int:
+
+--
+Here's the working code for the problem based on the algorithm I described earlier:
+
+python
+Copy code
+from typing import List
+
+class Solution:
+    def distinctAverages(self, nums: List[int]) -> int:
+        nums.sort()
+        distinct_averages = set()
+
+        for i in range(len(nums) // 2):
+            average = (nums[i] + nums[len(nums) - 1 - i]) / 2
+            distinct_averages.add(average)
+
+        return len(distinct_averages)
+This code defines the Solution class with the distinctAverages method. It takes a list of integers called nums as input and returns an integer representing the number of distinct averages. The method sorts the input array, calculates the averages, and stores them in a set to ensure they are distinct. Finally, it returns the size of the set, which represents the number of distinct averages.
+
+
+

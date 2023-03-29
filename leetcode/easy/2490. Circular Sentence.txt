@@ -1,0 +1,98 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+A sentence is a list of words that are separated by a single space with no leading or trailing spaces.
+
+For example, "Hello World", "HELLO", "hello world hello world" are all sentences.
+Words consist of only uppercase and lowercase English letters. Uppercase and lowercase English letters are considered different.
+
+A sentence is circular if:
+
+The last character of a word is equal to the first character of the next word.
+The last character of the last word is equal to the first character of the first word.
+For example, "leetcode exercises sound delightful", "eetcode", "leetcode eats soul" are all circular sentences. However, "Leetcode is cool", "happy Leetcode", "Leetcode" and "I like Leetcode" are not circular sentences.
+
+Given a string sentence, return true if it is circular. Otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: sentence = "leetcode exercises sound delightful"
+Output: true
+Explanation: The words in sentence are ["leetcode", "exercises", "sound", "delightful"].
+- leetcode's last character is equal to exercises's first character.
+- exercises's last character is equal to sound's first character.
+- sound's last character is equal to delightful's first character.
+- delightful's last character is equal to leetcode's first character.
+The sentence is circular.
+Example 2:
+
+Input: sentence = "eetcode"
+Output: true
+Explanation: The words in sentence are ["eetcode"].
+- eetcode's last character is equal to eetcode's first character.
+The sentence is circular.
+Example 3:
+
+Input: sentence = "Leetcode is cool"
+Output: false
+Explanation: The words in sentence are ["Leetcode", "is", "cool"].
+- Leetcode's last character is not equal to is's first character.
+The sentence is not circular.
+ 
+
+Constraints:
+
+1 <= sentence.length <= 500
+sentence consist of only lowercase and uppercase English letters and spaces.
+The words in sentence are separated by a single space.
+There are no leading or trailing spaces.
+
+--
+The problem requires checking if a given sentence is circular. A sentence is circular if the last character of a word is equal to the first character of the next word, and the last character of the last word is equal to the first character of the first word.
+
+To solve this problem, we can iterate through the words in the sentence and compare the last character of the current word with the first character of the next word. If we find any pair of adjacent words that don't satisfy the circular condition, we can return false. If we reach the end of the sentence, we should also check if the last character of the last word is equal to the first character of the first word. If all conditions are satisfied, we return true.
+
+Algorithm:
+
+Split the sentence into words.
+Iterate through the words, comparing the last character of the current word with the first character of the next word.
+If a pair of adjacent words doesn't satisfy the circular condition, return false.
+After iterating through all the words, check if the last character of the last word is equal to the first character of the first word.
+If all conditions are satisfied, return true.
+Time complexity: The time complexity is O(n), where n is the length of the sentence. This is because we need to iterate through the words once.
+
+Space complexity: The space complexity is O(w), where w is the number of words in the sentence. This is because we need to store the words in a list after splitting the sentence.
+
+
+
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+def isCircularSentence(self, sentence: str) -> bool:
+
+--
+Here's the implementation of the function based on the algorithm described earlier:
+
+python
+Copy code
+class Solution:
+    def isCircularSentence(self, sentence: str) -> bool:
+        # Step 1: Split the sentence into words
+        words = sentence.split()
+
+        # Step 2: Iterate through the words
+        for i in range(len(words) - 1):
+            # Check if the last character of the current word is equal to the first character of the next word
+            if words[i][-1] != words[i + 1][0]:
+                # Step 3: If a pair of adjacent words doesn't satisfy the circular condition, return false
+                return False
+
+        # Step 4: Check if the last character of the last word is equal to the first character of the first word
+        if words[-1][-1] != words[0][0]:
+            return False
+
+        # Step 5: If all conditions are satisfied, return true
+        return True
+You can use this implementation within the Solution class as provided. The function takes a sentence as input and returns a boolean value indicating whether the sentence is circular or not.
+
+
+

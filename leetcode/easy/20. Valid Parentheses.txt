@@ -1,0 +1,68 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions.
+Here is the problem statement:
+Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+
+Open brackets must be closed by the same type of brackets.
+Open brackets must be closed in the correct order.
+Every close bracket has a corresponding open bracket of the same type.
+ 
+
+Example 1:
+
+Input: s = "()"
+Output: true
+Example 2:
+
+Input: s = "()[]{}"
+Output: true
+Example 3:
+
+Input: s = "(]"
+Output: false
+ 
+
+Constraints:
+
+1 <= s.length <= 10^4
+s consists of parentheses only '()[]{}'.
+
+--
+To solve this problem efficiently, we can use a stack data structure. Here's the general idea of the algorithm:
+
+Initialize an empty stack.
+Iterate through each character in the input string:
+a. If the character is an open bracket ('(', '{', or '['), push it onto the stack.
+b. If the character is a close bracket (')', '}', or ']'), check if the stack is not empty and if the top of the stack contains the corresponding open bracket. If this condition is true, pop the open bracket from the stack. Otherwise, return false since the string is not valid.
+After the iteration, if the stack is empty, the input string is valid, so return true. If the stack is not empty, return false.
+The time complexity of this algorithm is O(n), where n is the length of the input string. This is because we are iterating through the input string once and performing constant-time operations (push, pop, and check) on the stack for each character. The space complexity is also O(n), as in the worst case, we might need to store all the characters of the input string on the stack (e.g., when the input string consists of all open brackets).
+
+
+
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+    def isValid(self, s: str) -> bool:
+
+--
+Here's the implementation of the isValid function in Python:
+
+python
+Copy code
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = []
+        bracket_map = {')': '(', '}': '{', ']': '['}
+
+        for char in s:
+            if char in bracket_map:
+                top_element = stack.pop() if stack else '#'
+                if bracket_map[char] != top_element:
+                    return False
+            else:
+                stack.append(char)
+
+        return not stack
+This implementation follows the algorithm I described earlier. The bracket_map is used to map the closing brackets to their corresponding opening brackets for efficient lookups. If the input string contains a closing bracket, we check if the top element of the stack matches the corresponding opening bracket. If not, we return False. If the input string contains an opening bracket, we push it onto the stack. Finally, we return True if the stack is empty, indicating that the input string is valid.
+
+

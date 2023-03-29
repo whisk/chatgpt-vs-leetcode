@@ -1,0 +1,77 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+You are given a positive integer num. You may swap any two digits of num that have the same parity (i.e. both odd digits or both even digits).
+
+Return the largest possible value of num after any number of swaps.
+
+ 
+
+Example 1:
+
+Input: num = 1234
+Output: 3412
+Explanation: Swap the digit 3 with the digit 1, this results in the number 3214.
+Swap the digit 2 with the digit 4, this results in the number 3412.
+Note that there may be other sequences of swaps but it can be shown that 3412 is the largest possible number.
+Also note that we may not swap the digit 4 with the digit 1 since they are of different parities.
+Example 2:
+
+Input: num = 65875
+Output: 87655
+Explanation: Swap the digit 8 with the digit 6, this results in the number 85675.
+Swap the first digit 5 with the digit 7, this results in the number 87655.
+Note that there may be other sequences of swaps but it can be shown that 87655 is the largest possible number.
+ 
+
+Constraints:
+
+1 <= num <= 10^9
+
+--
+To solve this problem efficiently, we can follow these steps:
+
+Convert the given integer 'num' to a list of its digits.
+Create two separate lists for even and odd digits.
+Sort both the even and odd digits lists in descending order.
+Create a new list for the final result.
+Iterate through the original list of digits, and for each digit, check its parity (odd/even).
+For each digit, if it is even, pop the largest even digit from the sorted even digits list and append it to the result list; if it is odd, pop the largest odd digit from the sorted odd digits list and append it to the result list.
+Convert the final result list back to an integer and return it.
+The time complexity of this solution is O(nlogn), where n is the number of digits in the given integer 'num'. This is because we need to sort both the even and odd digits lists, and sorting has a time complexity of O(nlogn). The memory complexity is O(n), as we need to store the lists of even and odd digits as well as the final result list.
+
+
+
+
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+    def minimumSum(self, num: int) -> int:
+Here is the Python code for the given problem statement:
+
+python
+Copy code
+class Solution:
+    def minimumSum(self, num: int) -> int:
+        # Convert the given integer 'num' to a list of its digits
+        num_list = list(str(num))
+        
+        # Create two separate lists for even and odd digits
+        even_digits = [int(d) for d in num_list if int(d) % 2 == 0]
+        odd_digits = [int(d) for d in num_list if int(d) % 2 != 0]
+        
+        # Sort both the even and odd digits lists in descending order
+        even_digits.sort(reverse=True)
+        odd_digits.sort(reverse=True)
+        
+        # Create a new list for the final result
+        result_list = []
+        
+        # Iterate through the original list of digits
+        for d in num_list:
+            if int(d) % 2 == 0:  # Check if the digit is even
+                result_list.append(str(even_digits.pop(0)))  # Pop the largest even digit and append it to the result list
+            else:
+                result_list.append(str(odd_digits.pop(0)))  # Pop the largest odd digit and append it to the result list
+        
+        # Convert the final result list back to an integer and return it
+        return int(''.join(result_list))
+You can use this code as a part of the Solution class. The function minimumSum takes an integer 'num' as input and returns the largest possible value of num after any number of allowed swaps.
+

@@ -1,0 +1,43 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions.
+Here is the problem statement:
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+ 
+
+Example 1:
+
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+Example 2:
+
+Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transactions are done and the max profit = 0.
+ 
+
+Constraints:
+
+1 <= prices.length <= 10^5
+0 <= prices[i] <= 10^4
+
+--
+To solve this problem efficiently, we can use a dynamic programming approach. We'll iterate through the prices array and keep track of the minimum price seen so far and the maximum profit we can achieve at each point.
+
+Here's the general idea:
+
+Initialize min_price to be the first element of the prices array and max_profit to be 0.
+Iterate through the prices array from the second element to the end.
+For each price in the array, calculate the profit if we sell at this price (current price - min_price) and update the max_profit if the profit is greater than the current max_profit.
+Update the min_price if the current price is less than the min_price.
+At the end of the iteration, max_profit will hold the maximum profit that can be achieved.
+The time complexity of this solution is O(n), where n is the length of the prices array since we are iterating through the entire array once. The space complexity is O(1) because we are only using a constant amount of additional memory to store min_price and max_profit.
+
+
+
+--

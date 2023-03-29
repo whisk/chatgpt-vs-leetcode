@@ -1,0 +1,74 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions.
+Here is the problem statement:
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1]
+ 
+
+Constraints:
+
+2 <= nums.length <= 10^4
+-10^9 <= nums[i] <= 10^9
+-10^9 <= target <= 10^9
+Only one valid answer exists.
+
+--
+The most efficient solution to this problem is to use a hash map (also known as a dictionary in some programming languages) to store the indices of the elements in the input array. The hash map allows for constant-time lookups of values, which will help us find the two numbers that add up to the target.
+
+Here's the idea of the algorithm:
+
+Create an empty hash map called 'index_map'.
+Iterate through the input array 'nums', using both the index and the value of each element (i, num).
+Calculate the complement of the current number, which is 'target - num'.
+Check if the complement exists in the 'index_map'. If it does, we found the two numbers that add up to the target, and we can return their indices as a list (or tuple) [index_map[complement], i].
+If the complement is not in the 'index_map', add the current number and its index to the 'index_map' as a key-value pair (num: i).
+If the loop completes without finding a pair that adds up to the target, return an empty list or raise an error, depending on the problem's requirements (though it's guaranteed that a valid answer exists).
+Time complexity: O(n), where n is the length of the input array 'nums'. This is because we iterate through the array once and perform constant-time operations (adding to the hash map and checking if a key exists in it) for each element.
+
+Space complexity: O(n), where n is the length of the input array 'nums'. In the worst case, we might store all the elements of the input array in the 'index_map'.
+
+
+
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+
+--
+Here's the complete Python code for the given function declaration:
+
+python
+Copy code
+from typing import List
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        index_map = {}
+        
+        for i, num in enumerate(nums):
+            complement = target - num
+            
+            if complement in index_map:
+                return [index_map[complement], i]
+            
+            index_map[num] = i
+        
+        return []  # This line is not necessary because a valid answer always exists, but it's here to keep the code clean.
+You can use this code as a standalone class or incorporate it into your own codebase. The 'twoSum' function takes in a list of integers 'nums' and an integer 'target' and returns a list of two integers, which are the indices of the numbers in 'nums' that add up to 'target'.

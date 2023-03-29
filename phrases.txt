@@ -1,0 +1,19 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions. Here is the problem statement:
+
+
+The time complexity of your solution seems to be suboptimal. Could you please suggest a more efficient solution?
+
+
+The time complexity of your solution seems to be incorrect. Could you please improve it?
+
+
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. Here is the function declaration:
+
+
+This code returns incorrect results. Could you please improve your solution?
+
+
+This code raises a runtime error. Could you please improve it?
+
+
+This code runs too long or hangs. Could you please improve it?

@@ -1,0 +1,120 @@
+Hi, this is a coding interview. I will give you a problem statement and expect that you explain the idea of the most efficient solution. You should estimate time and memory complexity using the big O notation. You don't need to write code yet. Feel free to ask clarifying questions.
+Here is the problem statement:
+
+
+You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
+
+Return the max sliding window.
+
+ 
+
+Example 1:
+
+Input: nums = [1,3,-1,-3,5,3,6,7], k = 3
+Output: [3,3,5,5,6,7]
+Explanation: 
+Window position                Max
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+Example 2:
+
+Input: nums = [1], k = 1
+Output: [1]
+ 
+
+Constraints:
+
+1 <= nums.length <= 10^5
+-10^4 <= nums[i] <= 10^4
+1 <= k <= nums.length
+
+--
+The most efficient solution for this problem is to use a double-ended queue (deque). The deque will store the indices of the elements in the array, maintaining a decreasing order of the corresponding elements' values. This way, the front of the deque will always hold the index of the maximum element in the current sliding window.
+
+Here's the high-level algorithm:
+
+Initialize an empty deque.
+Iterate through the input array.
+a. Remove indices from the front of the deque if they are out of the current window (i.e., their difference with the current index is equal to or greater than k).
+b. Remove indices from the back of the deque if the corresponding elements are less than or equal to the current element, as they cannot be maximum in the current or future windows.
+c. Append the current index to the deque.
+d. If the current index is greater than or equal to k - 1, add the element at the front of the deque to the result list.
+Return the result list.
+The time complexity of this algorithm is O(n), where n is the length of the input array. This is because each element is added to the deque once and removed at most once during the entire iteration. The space complexity is O(k) as we maintain a deque of size k in the worst case.
+
+Example:
+
+nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3
+Deque: []
+Result: []
+
+Iteration 1:
+Deque: [0] # Add 1st index
+Result: []
+
+Iteration 2:
+Deque: [1] # Remove 1st index, add 2nd index
+Result: [3] # 1st window completed
+
+Iteration 3:
+Deque: [1, 2] # Add 3rd index
+Result: [3, 3] # 2nd window completed
+
+Iteration 4:
+Deque: [4] # Remove 1st and 2nd index, add 4th index
+Result: [3, 3, 5] # 3rd window completed
+
+Iteration 5:
+Deque: [4, 5] # Add 5th index
+Result: [3, 3, 5, 5] # 4th window completed
+
+Iteration 6:
+Deque: [6] # Remove 4th and 5th index, add 6th index
+Result: [3, 3, 5, 5, 6] # 5th window completed
+
+Iteration 7:
+Deque: [7] # Remove 6th index, add 7th index
+Result: [3, 3, 5, 5, 6, 7] # 6th window completed
+
+
+
+--
+Please write a working code for this problem in Python. I will give you an empty function declaration, and you should expand it with your code. Please remember, that you should not change function definition. 
+Here is the function declaration:
+def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+
+--
+python
+Copy code
+from collections import deque
+
+def maxSlidingWindow(nums, k):
+    result = []
+    dq = deque()
+
+    for i in range(len(nums)):
+        # Remove indices that are out of the current window
+        while dq and dq[0] < i - k + 1:
+            dq.popleft()
+
+        # Remove indices with values less than or equal to the current element
+        while dq and nums[dq[-1]] <= nums[i]:
+            dq.pop()
+
+        # Add the current index to the deque
+        dq.append(i)
+
+        # If the current index is greater than or equal to k - 1, add the element at the front of the deque to the result
+        if i >= k - 1:
+            result.append(nums[dq[0]])
+
+    return result
+This code follows the algorithm I previously described. It uses the deque data structure from the collections module to efficiently maintain a double-ended queue. This function should work as expected for the given problem statement.
+
+
+
